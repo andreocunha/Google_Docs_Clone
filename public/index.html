@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs Clone</title>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <style>
+        body{
+            background-color: darkgrey;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Docs Clone</h1>
+
+    <div>
+        <textarea id="textoArea" placeholder="Digite aqui..." style="width:600px; height:500px"></textarea>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const socket = io.connect();
+            const textoArea = document.getElementById("textoArea")
+
+            textoArea.addEventListener("keyup", (evt) => {
+                const text = textoArea.value
+                socket.emit('textoUsuario', text)
+            })
+
+            socket.on('textoServidor', (data) => {
+                textoArea.value = data
+            })
+        })
+
+    </script>
+</body>
+</html>
